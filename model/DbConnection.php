@@ -4,7 +4,7 @@ class DbConnection{
     private $host = 'localhost';
     private $username = 'root';
     private $password = '';
-    private $database = 'cshs_onlineenrollmentplatform';
+    private $database = 'youth_hero';
  
     protected $connection;
 
@@ -60,16 +60,25 @@ class DbConnection{
     	return $this->connection->real_escape_string($value);
     }
 
-    public function generateCaptchaStringToSession($charLenth) {
-        // Generate a random string
-        $length = $charLenth;
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $random_string = '';
-        for ($i = 0; $i < $length; $i++) {
-            $random_string .= $characters[rand(0, strlen($characters) - 1)];
+
+    public function Authenticate($username, $password){
+        $uname=$this->escapeString($username);
+        $pw=$this->escapeString($password);
+
+        $sql = "SELECT `UserAccountId`, `Username`, `Password`, `LastLogin`, `UserTypeId` FROM `useraccount_table` WHERE `Username`=$uname";
+        $query = $this->getConnection()->query($sql);
+
+        if ($query->num_rows==1) {
+            $row = $query->fetch_assoc();
+            if (password_verify($pw, $row["Password"])) {
+                return true;
+            }
         }
-        $_SESSION['captcha']=$random_string;
+
+        return false;
     }
+
+
 
 }
 ?>

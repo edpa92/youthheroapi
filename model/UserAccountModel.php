@@ -17,11 +17,11 @@ class UserAccountModel extends DbConnection{
         if (mysqli_num_rows($query)>0) {
             $row = $query->fetch_assoc();
             
-                return password_verify($password, $row["Password"]);
+                return password_verify($password, $row["Password"])?$row:NULL;
             
         }
 
-        return false;
+        return null;
     }
     
     public function addUserAccount($Username,$Password,$UserTypeId)

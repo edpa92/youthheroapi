@@ -23,7 +23,7 @@
                 $id=$userO->addUserAccount($userO->escapeString($_POST['username']),$pw,$userO->escapeString($_POST['usertypeid']));
             
             if ($id>0) {
-                $seekerId=$seekerO->addSeeker(0, 
+                $seekerId=$seekerO->addSeeker(
                     $userO->escapeString($_POST['firstname']), 
                     $userO->escapeString($_POST['lastname']), 
                     $userO->escapeString($_POST['gender']), 
@@ -32,7 +32,7 @@
                     $id);
                 
                 if ($seekerId>0) {
-                    $result=$eduO->addEditEducation(0, $seekerId, $eduO->escapeString($_POST['education']), $eduO->escapeString($_POST['major'])
+                    $result=$eduO->addEducation($seekerId, $eduO->escapeString($_POST['education']), $eduO->escapeString($_POST['major'])
                         , $eduO->escapeString($_POST['school']));
                 }
                 
